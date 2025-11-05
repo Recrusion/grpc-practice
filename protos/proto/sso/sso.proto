@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = ".;ssov1";
+
+service Auth {
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc IsAdmin (IsAdminRequest) returns (IsAdminResponse); // проверка на является ли пользователь админом
+}
+
+message RegisterRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message RegisterResponse {
+  uint64 user_id = 1;
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+  uint32 app_id = 3; // нужно, чтобы указать, в какой именно сервис пользователь будет логиниться
+}
+
+message LoginResponse {
+  string token = 1;
+}
+
+message IsAdminRequest {
+  uint64 user_id = 1; // принимает id пользователя
+}
+
+message IsAdminResponse {
+  bool is_admin = 1; // возвращает true/false
+}
